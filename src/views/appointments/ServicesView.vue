@@ -3,6 +3,9 @@
 import ServicesItem from '../../components/ServicesItem.vue';
 import {useServiceStore} from '../../stores/services'
 
+
+
+
 const storeservice = useServiceStore()
 
 </script>

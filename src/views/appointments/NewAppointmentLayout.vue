@@ -15,7 +15,7 @@ const route = useRoute()
             <RouterLink
                 :to="{name: 'new-appointment'}"
                 class="flex-1 text-center p-3 uppercase font-bold hover:bg-blue-600 hover:text-white"
-                :class="route.name === 'new-appointment' ? 'bg-blue-500 text-white' : 'bg-white text-blue-500 ' "
+                :class="route.name === 'new-appointment' ? 'bg-blue-600 text-white' : 'bg-white text-blue-600 ' "
                 >
                 Servicios
             </RouterLink>
@@ -23,20 +23,17 @@ const route = useRoute()
             <RouterLink
                 :to="{name: 'appointment-details'}"
                 class="flex-1 text-center p-3 uppercase font-bold bg-white hover:bg-blue-600 hover:text-white"
-                :class="route.name === 'appointment-details' ? 'bg-blue-500 text-white' : 'bg-white text-blue-500 ' "            
+                :class="route.name === 'appointment-details' ? 'bg-blue-600 text-white' : 'bg-white text-blue-600 ' "            
                 >
                 Cita y Resumen
             </RouterLink>
-
-
         </nav>
-
     </div>
 
-<main>
-
+<main class="space-y-4">
     <RouterView />
-    
 </main>
+    
+
 
 </template>
