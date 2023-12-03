@@ -25,10 +25,10 @@ defineProps({
     :class="appointments.isServiceSelected(service._id) ? 'bg-green-600 text-white' : 'bg-blue-900 '"
     >
 
-      <p class="text-xl font-extrabold"> {{service.name}}</p>
+      <p class="text-lg font-bold"> {{service.name}}</p> 
 
       <p 
-      class="text-md font-bold italic " 
+      class="text-sm font-extrabold italic " 
       :class="appointments.isServiceSelected(service._id) ? ' text-gray-200' : 'text-gray-100 '"
       > {{formatCurrency( service.price)}} </p>
   </div>

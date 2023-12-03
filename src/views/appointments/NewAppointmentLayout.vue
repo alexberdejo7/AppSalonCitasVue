@@ -11,10 +11,10 @@ const route = useRoute()
 
 <template>
     <div>
-        <nav class="my-5 flex gap-3">
+        <nav class="my-10 flex gap-3">
             <RouterLink
                 :to="{name: 'new-appointment'}"
-                class="flex-1 text-center p-3 uppercase font-bold hover:bg-blue-600 hover:text-white"
+                class="flex-1 text-center rounded-lg text-sm p-2 uppercase font-bold hover:bg-blue-600 hover:text-white"
                 :class="route.name === 'new-appointment' ? 'bg-blue-600 text-white' : 'bg-white text-blue-600 ' "
                 >
                 Servicios
@@ -22,7 +22,7 @@ const route = useRoute()
 
             <RouterLink
                 :to="{name: 'appointment-details'}"
-                class="flex-1 text-center p-3 uppercase font-bold bg-white hover:bg-blue-600 hover:text-white"
+                class="flex-1 text-sm text-center rounded-lg p-3 uppercase font-bold  hover:bg-blue-600 hover:text-white"
                 :class="route.name === 'appointment-details' ? 'bg-blue-600 text-white' : 'bg-white text-blue-600 ' "            
                 >
                 Cita y Resumen

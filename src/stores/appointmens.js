@@ -1,10 +1,24 @@
 import { defineStore } from "pinia";
-import {ref, computed} from 'vue'
+import {ref, computed, onMounted} from 'vue'
 
 
 export const useAppointmentsStore = defineStore('appointments', () => {
 
     const services = ref([])
+    const date = ref('')
+    const hours = ref([])
+    const time = ref('')
+
+    onMounted(() => {
+        const startHour = 10
+        const lastHour = 22
+
+            for( let hour = startHour; hour <= lastHour; hour++) {
+                hours.value.push(hour + ':00')
+            }
+    })
+
+
 
 
     function onServicesSelected(service) {
@@ -22,6 +36,21 @@ export const useAppointmentsStore = defineStore('appointments', () => {
             
     }
 
+
+    function confirmAppointment() {
+        const reservation = {
+            services: services.value.map (service => service._id),
+            date: date.value,
+            time: time.value,
+            totalAmount: totalAccount.value
+        }
+
+        console.log(reservation)
+    }
+
+
+
+
     const isServiceSelected = computed(() => {
         return (id) => services.value.some(service => service._id === id)
     })
@@ -34,12 +63,24 @@ export const useAppointmentsStore = defineStore('appointments', () => {
     })
 
 
+    const ReservationIsValid = computed(() => {
+        return services.value.length && date.value.length && time.value.length 
+    })
+
+
+
+    
     return {
         onServicesSelected,
         isServiceSelected,
         services,
+        date,
+        hours,
+        ReservationIsValid,
+        time,
         totalAccount,
-        noServiceSelected
+        noServiceSelected,
+        confirmAppointment
     }
 
 })
