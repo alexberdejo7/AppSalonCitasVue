@@ -1,7 +1,10 @@
 
 <script setup>
 import { RouterLink } from 'vue-router';
+import { useUserStore } from '../../stores/user'
 
+
+const user = useUserStore()
  
 
 
@@ -13,11 +16,12 @@ import { RouterLink } from 'vue-router';
 
     <div class="flex flex-col space-y-4">
         <div class="flex gap-2 items-center">
-          <p class="text-white text-right"> Hola: Usuario </p>
+          <p class="text-white text-right"> Hola: {{user.getUserName}} </p>
         
           <button
           type="button"
           class="bg-red-600 hover:bg-red-700 p-2 uppercase text-white text-xs font-extrabold rounded-lg"  
+          @click="user.logout"
           >
           Cerrar Sesion
         </button>

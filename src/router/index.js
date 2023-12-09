@@ -79,7 +79,7 @@ router.beforeEach( async (to, from, next) => {
     try {
       const {data} = await AuthApi.auth()
       next()
-      console.log(data)
+      
     } catch (error) {
       next({name: 'login'})
 
