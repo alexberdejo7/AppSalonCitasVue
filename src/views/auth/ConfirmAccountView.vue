@@ -6,7 +6,6 @@ import AuthApi from '../../api/AuthApi'
 
 
 const toast = inject('toast')
-
 const router = useRouter()
 const route = useRoute()
 const { token } = route.params

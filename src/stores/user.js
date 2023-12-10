@@ -7,8 +7,7 @@ import {useRouter} from 'vue-router'
 export const useUserStore = defineStore('user', () => {
 
     const router = useRouter()
-    const user = ref
-    ({})
+    const user = ref({})
 
     onMounted( async () => {
         try {

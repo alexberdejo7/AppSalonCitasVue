@@ -16,7 +16,6 @@ const router = createRouter({
       name: 'appointments',
       component: AppointmentLayout,
       meta: {requiresAuth: true},
-
       children: [
         {
           path: '',
@@ -25,7 +24,7 @@ const router = createRouter({
         },
         {
           path: 'nueva',
-          component: () => import('../views/auth/AuthLayout.vue'),
+          component: () => import('../views/appointments/NewAppointmentLayout.vue'),
           children: [
             {
               path: '',
@@ -77,7 +76,7 @@ router.beforeEach( async (to, from, next) => {
 
   if(requiresAuth) {
     try {
-      const {data} = await AuthApi.auth()
+      await AuthApi.auth()
       next()
       
     } catch (error) {

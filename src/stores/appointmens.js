@@ -1,6 +1,9 @@
 import { defineStore } from "pinia";
-import {ref, computed, onMounted} from 'vue'
+import {ref, watch, computed, inject, onMounted} from 'vue'
 import AppointmentAPI from "../api/AppointmentAPI";
+import { converToISO } from "../helpers/date"; 
+import { useRouter } from 'vue-router'
+
 
 export const useAppointmentsStore = defineStore('appointments', () => {
 
@@ -8,6 +11,10 @@ export const useAppointmentsStore = defineStore('appointments', () => {
     const date = ref('')
     const hours = ref([])
     const time = ref('')
+    const appointmentsByDate = ref([])
+
+const toast = inject('toast')
+const router = useRouter()
 
     onMounted(() => {
         const startHour = 10
@@ -17,6 +24,19 @@ export const useAppointmentsStore = defineStore('appointments', () => {
                 hours.value.push(hour + ':00')
             }
     })
+
+    watch(date, async () => {
+        time.value = ''
+        if(date.value === '') return
+
+        //Obtener citas 
+        const { data } = await AppointmentAPI.getByDate(date.value)
+        appointmentsByDate.value = data
+
+        console.log(data)
+
+     })
+
 
 
 
@@ -40,12 +60,32 @@ export const useAppointmentsStore = defineStore('appointments', () => {
     async function confirmAppointment() {
         const appointment = {
             services: services.value.map (service => service._id),
-            date: date.value,
+            date: converToISO(date.value),
             time: time.value,
-            totalAmount: totalAccount.value
+            totalAccount: totalAccount.value
         }
+        try {
+            const { data } = await AppointmentAPI.create(appointment)
+            toast.open({
+                message: data.msg,
+                type: 'success'
+            })
+            clearAppointmentData()
+            router.push({name: 'my-appointments'})
 
-      await AppointmentAPI.create(appointment)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+        
+      
+    
+    function clearAppointmentData() {
+        services.value = []
+        date.value = ''
+        time.value = ''
+        
     }
 
 
@@ -67,20 +107,32 @@ export const useAppointmentsStore = defineStore('appointments', () => {
         return services.value.length && date.value.length && time.value.length 
     })
 
+    const isDateSelected = computed(() => {
+        return date.value ? true : false
+    })
+
+    const disabledHours = computed(() => {
+        return (hour) => {
+            return appointmentsByDate.value.find(appointment => appointment.time === hour)
+        }
+    })
 
 
     
     return {
         onServicesSelected,
+        isDateSelected,
         isServiceSelected,
         services,
+        disabledHours,
         date,
         hours,
         ReservationIsValid,
         time,
         totalAccount,
         noServiceSelected,
-        confirmAppointment
+        confirmAppointment,
+        
     }
 
 })

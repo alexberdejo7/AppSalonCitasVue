@@ -2,7 +2,7 @@
 <script setup>
 import { RouterView } from 'vue-router';
 
-  const authRoute = [
+  const authRoutes = [
     {name: 'register', text: 'Crear una cuenta'},
     {name: 'login', text: 'Iniciar Sesion'},
   ]
@@ -16,7 +16,7 @@ import { RouterView } from 'vue-router';
 
     <nav class="mt-10 flex flex-col items-center space-y-5 md:flex-row md:justify-between md:space-y-8">
         <RouterLink
-          v-for="authRoute in authRoute"
+          v-for="authRoute in authRoutes"
           class="uppercase font-bold text-white"
           :to="{name: authRoute.name}"
         >

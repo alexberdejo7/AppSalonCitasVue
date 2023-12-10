@@ -10,7 +10,7 @@ const route = useRoute()
 </script> 
 
 <template>
-    <div>
+    
         <nav class="my-10 flex gap-3">
             <RouterLink
                 :to="{name: 'new-appointment'}"
@@ -28,7 +28,7 @@ const route = useRoute()
                 Cita y Resumen
             </RouterLink>
         </nav>
-    </div>
+    
 
 <main class="space-y-4">
     <RouterView />
