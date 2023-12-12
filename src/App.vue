@@ -7,7 +7,7 @@ import {RouterView, RouterLink} from 'vue-router'
     <div class="h-64 md:h-auto bg-cover bg-center md:w-1/3 bg-appImg">
     </div>
 
-    <div class="md:w-2/3 px-10 py-5 min-h-full overflow-y-scroll">     
+    <div class="md:w-2/3 px-10 py-3 min-h-full overflow-y-scroll">     
       <RouterView />
     </div>
 

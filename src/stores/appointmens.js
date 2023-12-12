@@ -109,7 +109,7 @@ const user =  useUserStore()
         router.push({name: 'my-appointments'})
     }
 
-        
+    //Limpiar valores citas
       
     
     function clearAppointmentData() {
@@ -118,6 +118,27 @@ const user =  useUserStore()
         date.value = ''
         time.value = ''
         
+    }
+
+    //Eliminar citas
+    async function deleteAppointment(id) {
+        if(confirm('¿Deseas cancelar esta cita?'))
+        try {
+            const { data } = await AppointmentAPI.delete(id)
+            toast.open({
+                message: data.msg,
+                type: 'success'
+            })
+
+        user.userAppointments = user.userAppointments.filter(appointment => appointment._id !== id)
+
+        } catch (error) {
+            toast.open({
+                message: error.response.data.msg,
+                type: 'error'
+            })   
+            
+        }
     }
 
 
@@ -165,6 +186,7 @@ const user =  useUserStore()
         noServiceSelected,
         saveAppointment,
         clearAppointmentData,
+        deleteAppointment,
         setSelectedAppointment
         
     }
