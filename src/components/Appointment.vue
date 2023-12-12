@@ -23,29 +23,28 @@ defineProps({
 
         <p> {{ service.name }} </p>
         <p class="text-xl font-black text-blue-500"> {{ formatCurrency (service.price) }} </p>
-
+        </div>
         <p class="text-xl font-black text-right"> 
           Total a pagar: <span class="text-amber-600 font-bold text-sm"> {{ formatCurrency (appointment.totalAccount) }} </span>
         </p>
 
 
         <div class="flex gap-2 items-center"> 
-          <button 
-          class="bg-slate-800 rounded-lg p-2 text-white text-sm uppercase font-black flex-1 md:flex-none"
+          <RouterLink 
+          :to="{name: 'edit-appointment', params: {id : appointment._id}}"
+          class="bg-indigo-600 rounded-lg p-2 text-white text-sm uppercase font-black flex-1 md:flex-none"
           >
-          Editar cita
-          </button>
+            Editar cita
+          </RouterLink>
 
           <button
           class="bg-red-600 rounded-lg p-2 text-white text-sm uppercase font-black flex-1 md:flex-none"
           >
-          Cancelar cita
+          Cancelar cita 
           </button>
 
 
-        </div>
-
-
+        
       </div>
   </div>
 </template>

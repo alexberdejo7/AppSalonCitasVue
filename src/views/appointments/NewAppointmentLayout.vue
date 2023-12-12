@@ -1,9 +1,14 @@
 <script setup>
-import { RouterLink } from 'vue-router';
-import { useRoute } from 'vue-router';
+import { RouterLink, useRoute } from 'vue-router';
+import { onMounted } from 'vue';
+import { useAppointmentsStore } from '../../stores/appointmens';
 
-
+const appointsments = useAppointmentsStore()
 const route = useRoute()
+
+onMounted(() => {
+    appointsments.clearAppointmentData()
+})
 
 
 

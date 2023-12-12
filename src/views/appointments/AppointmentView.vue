@@ -88,7 +88,7 @@ const disableDate = (date) => {
         <div class="flex justify-end" v-if="appointments.ReservationIsValid">
             <button
               class="w-full md:w-auto bg-green-700 uppercase hover:bg-green-600 p-3 rounded-lg text-md font-black text-white"
-            @click="appointments.confirmAppointment"
+            @click="appointments.saveAppointment"
             >
                 Confirmar cita
 

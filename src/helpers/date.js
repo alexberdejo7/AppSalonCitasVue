@@ -14,3 +14,10 @@ export function displayDate(date) {
     return formattedDate
 
 }
+
+export function convertToDDMMYYYY(isoDate) {
+    const newDate = new Date(isoDate)
+    const formattedDate = format(newDate, 'dd/MM/yyyy')
+
+    return formattedDate
+}

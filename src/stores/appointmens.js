@@ -1,12 +1,13 @@
 import { defineStore } from "pinia";
 import {ref, watch, computed, inject, onMounted} from 'vue'
 import AppointmentAPI from "../api/AppointmentAPI";
-import { converToISO } from "../helpers/date"; 
+import { converToISO, convertToDDMMYYYY } from "../helpers/date"; 
 import { useRouter } from 'vue-router'
-
+import {useUserStore} from '../stores/user'
 
 export const useAppointmentsStore = defineStore('appointments', () => {
-
+   
+    const appointmentId = ref('')
     const services = ref([])
     const date = ref('')
     const hours = ref([])
@@ -15,6 +16,7 @@ export const useAppointmentsStore = defineStore('appointments', () => {
 
 const toast = inject('toast')
 const router = useRouter()
+const user =  useUserStore()
 
     onMounted(() => {
         const startHour = 10
@@ -31,12 +33,25 @@ const router = useRouter()
 
         //Obtener citas 
         const { data } = await AppointmentAPI.getByDate(date.value)
-        appointmentsByDate.value = data
-
-        console.log(data)
+        
+        if(appointmentId.value) {
+            appointmentsByDate.value = data.filter(appointment => appointment._id !== appointmentId.value)
+            time.value = data.filter(appointment => appointment._id === appointmentId.value)[0].time
+        } else {
+            appointmentsByDate.value = data
+        }
 
      })
 
+
+     function setSelectedAppointment(appointment) {
+        services.value = appointment.services
+        date.value = convertToDDMMYYYY(appointment.date)
+        time.value = appointment.time
+        appointmentId.value = appointment._id
+        
+      
+     }
 
 
 
@@ -57,31 +72,48 @@ const router = useRouter()
     }
 
 
-    async function confirmAppointment() {
+    async function saveAppointment() {
         const appointment = {
             services: services.value.map (service => service._id),
             date: converToISO(date.value),
             time: time.value,
             totalAccount: totalAccount.value
         }
-        try {
-            const { data } = await AppointmentAPI.create(appointment)
-            toast.open({
-                message: data.msg,
-                type: 'success'
-            })
-            clearAppointmentData()
-            router.push({name: 'my-appointments'})
 
-        } catch (error) {
-            console.log(error)
+        if(appointmentId.value) {
+            try {
+
+                const { data } = await AppointmentAPI.update(appointmentId.value, appointment)
+                toast.open({
+                    message: data.msg,
+                    type: 'success'
+                })  
+            } catch (error) {
+                console.log(error)
+            }
+        } else {
+            try {
+                const { data } = await AppointmentAPI.create(appointment)
+                toast.open({
+                    message: data.msg,
+                    type: 'success'
+                })   
+            } catch (error) {
+                console.log(error)
+            }
         }
+
+        clearAppointmentData()
+        user.getUserAppointments()
+
+        router.push({name: 'my-appointments'})
     }
 
         
       
     
     function clearAppointmentData() {
+        appointmentId.value = ''
         services.value = []
         date.value = ''
         time.value = ''
@@ -131,7 +163,9 @@ const router = useRouter()
         time,
         totalAccount,
         noServiceSelected,
-        confirmAppointment,
+        saveAppointment,
+        clearAppointmentData,
+        setSelectedAppointment
         
     }
 
