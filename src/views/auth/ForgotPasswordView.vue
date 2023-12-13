@@ -1,5 +1,29 @@
 
 <script setup>
+import { inject } from 'vue';
+import AuthApi from '../../api/AuthApi';
+import {reset} from '@formkit/core'
+
+const toast = inject('toast')
+
+const handleSubmit = async ({email}) => {
+  try {
+    const {data} = await AuthApi.forgotPassword({email})
+    toast.open({
+      message: data.msg,
+      type: 'success'
+    })
+    reset('forgotPassword')
+  } catch (error) {
+    toast.open({
+      message: error.response.data.msg,
+      type: 'error'
+    })
+    
+  }
+}
+
+
 
 </script>
 
@@ -10,12 +34,12 @@
     <p class="text-md italic text-white text-center my-5"> Recupera el acceso a tu cuenta.  </p>
 
     <FormKit
-        id="registerForm"
+        id="forgotPassword"
         type="form"
         :actions="false"
-        incomplete-message="Ups! Error al crear tu cuenta, revisa las notificaciones"
+        incomplete-message="No se puedo enviar! Revisa el correo"
         @submit="handleSubmit"
-        />
+    >
         
         <FormKit
             type="email"
@@ -27,14 +51,13 @@
               required: 'El correo es obligatorio',
               email: 'El correo es invalido'
             }"
-          >
-        </FormKit>
+          />
+        
 
         <FormKit 
           type="submit">  
             Enviar instrucciones
-
         </FormKit>
-
-  
+        
+      </FormKit>
 </template>
