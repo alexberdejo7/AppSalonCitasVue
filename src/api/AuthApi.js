@@ -12,7 +12,10 @@ export default {
         return api.post(`/auth/login/`, data)
     },
     auth() {
-        return api.get('auth/user')
+        return api.get('/auth/user')
+    },
+    admin() {
+        return api.get('/auth/admin')
     },
     forgotPassword( data ) {
         return api.post('/auth/forgot-password', data)
