@@ -1,11 +1,17 @@
-<script setup>
-
-</script>
-
 <template>
-  <main>
-    <h1 class="text-2xl text-indigo-300"> App Salon </h1>
-
-    
-  </main>
+  <div>
+    <!-- Puedes agregar contenido adicional aquí si es necesario -->
+  </div>
 </template>
+
+<script setup>
+import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+
+onMounted(() => {
+  // Redirige automáticamente a la página de inicio de sesión al montar el componente HomeView
+  router.push({ name: 'login' });
+});
+</script>
